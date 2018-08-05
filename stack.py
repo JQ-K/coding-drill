@@ -48,7 +48,20 @@ class ArrayStack:
 		return self._data.pop()  # remove last item from list
 
 
+def reverse_file(filename):
+	"""Overwrite given file with its contents line-byline reversed"""
+	S = ArrayStack()
+	with open(filename, 'r') as outfile:
+		for line in outfile:
+			S.push(line.rstrip('\n'))
+
+	with open(filename,'w') as infile:
+		while not S.is_empty():
+			infile.write(S.pop() + '\n')
+
+
 if __name__ == '__main__':
 	a = ArrayStack()
 	a.push('123')
 	print(a.top())
+	reverse_file('kang.txt')
