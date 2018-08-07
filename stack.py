@@ -76,6 +76,25 @@ def is_matched(expr):
 	return S.is_empty()
 	
 
+def is_matched_html(raw):
+	""" 判断HTML 标签是否正确匹配"""
+	S = ArrayStack() # 创建一个stack
+	j = raw.find('<') # 是否存在，如果有返回第一个位置，没有的话返回-1
+	while j != -1: # 使用while 语句，找完所有的‘<'标签
+		k = raw.find('>', j+1) # k 是从 '<' 后 找到的第一个'>'的位置
+		if k == -1:  # 如果k = -1 说明缺一个 '>'
+			return False
+		tag = raw[j+1,:k] # tag 是 < > 之间的内容 
+		if not tag.sartswith('/'): # 如果非尾部标签，把 tag 压入栈
+			S.push(tag)
+		else:
+			if S.is_empty():
+				return False
+			if tag[1:] != S.pop():
+				return False
+		j = raw.find('<', k+1)
+	return S.is_empty()
+
 
 if __name__ == '__main__':
 	a = ArrayStack()
